@@ -1,1 +1,2 @@
 # TFG-VPL
+Aquí se encuentran todos los archivos que se utilizan en el sistema de retroalimentación automática en VPL. Estos se van a dividir en dos tipos, los archivos para VPL y por otro lado la API. Dentro de los archivos de VPL, todos se deben de colocar en ficheros para la ejecución. De todos, vpl_evaluate.sh, vpl_evaluate.cpp y la ApiOpenRouter.py están rellenos, en vpl_evaluate.sh hay que poner la IP pública que vas a utilizar. Los demás los debes de rellenar con el archivo propio para el ejercicio que quieres evaluar.
