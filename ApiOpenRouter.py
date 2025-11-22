@@ -362,9 +362,9 @@ RESUMEN SERVIDOR (no citar nota):
     nota_ia_num = None
     nota_ia_comentario = ""
     tail_lines = retroalimentacion.strip().splitlines()
-    ia_line = next((ln for ln in reversed(tail_lines) if ln.strip().startswith("NOTA_IA:")), None)
+    ia_line = next((ln for ln in reversed(tail_lines) if ln.strip().lower().startswith("nota_ia:")), None)
     if ia_line:
-        m = re.match(r'^NOTA_IA\s*:\s*(10|[0-9])\s*-\s*(.+)$', ia_line.strip())
+        m = re.match(r'(?i)^nota_ia\s*:\s*(10|[0-9])\s*-\s*(.+)$', ia_line.strip())
         if m:
             nota_ia_num = int(m.group(1))
             nota_ia_comentario = m.group(2).strip()
