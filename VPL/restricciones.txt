@@ -1,1 +1,3 @@
-
+Obligaciones:
+* No se permiten funciones externas adicionales a input y print (no usar math ni otros módulos).
+* La entrada y salida deben ser exactamente iguales que en el código base (mismos mensajes en input y mismo formato de print("Resultado:", resultado)).
