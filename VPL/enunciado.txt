@@ -1,1 +1,5 @@
+Traduzca la siguiente expresión matemáticas a Python:
 
+(-4 + 6sqrt(y)) / (2x + x^3)
+
+Copie el siguiente código en a01e02.expresion.py y luego modifíquelo de forma apropiado para incorporar la expresión anterior. Finalmente valide que el código funciona de forma correcta en esta tarea.
