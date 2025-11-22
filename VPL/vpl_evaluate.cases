@@ -1,1 +1,35 @@
+case = caso1
+input = 1
+1
+output = x:
+y:
+Resultado: 0.6666666666666666
 
+case = caso2
+input = 1
+0
+output = x:
+y:
+Resultado: -1.3333333333333333
+
+case = caso3
+input = 2
+3
+output = x:
+y:
+Resultado: 0.5326920704511053
+
+case = caso4
+input = 0.5
+0.5
+output = x:
+y:
+Resultado: 0.21568061077269837
+
+
+case = caso5
+input = -2
+1
+output = x:
+y:
+Resultado: -0.16666666666666666
