@@ -1,1 +1,9 @@
+#Ejercicio 2, semana 1
+ 
+x: float = float(input("x: "))
+y: float = float(input("y: "))
 
+# Reemplace el 0 por la expresión del enunciado
+resultado: float = 0
+
+print("Resultado:", resultado)
