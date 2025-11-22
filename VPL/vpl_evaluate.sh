@@ -2,7 +2,7 @@
 # vpl_evaluate.sh — ejecuta BIOTES si está, sino fallback (multi-lenguaje), y envía a la API
 set -Eeuo pipefail
 
-API_URL="${API_URL:-http://IPPública:8000}"
+API_URL="${API_URL:-http://150.214.214.19:8000}"
 TIMEOUT=40
 
 # 0) Selección de archivo de código del alumno
@@ -260,8 +260,8 @@ else
 import json, sys
 data=json.load(open('feedback.json','r',encoding='utf-8',errors='ignore'))
 print(data.get("retroalimentacion","(sin texto)"))
-print("NOTA:", data.get("nota","-"))
 print("NOTA_TESTS:", data.get("nota_tests","-"))
+print("NOTA:", data.get("nota","-"))
 PY
 fi
 
