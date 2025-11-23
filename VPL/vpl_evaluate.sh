@@ -1,5 +1,5 @@
 #!/bin/bash
-# vpl_evaluate.sh — ejecuta BIOTES si está, sino fallback (multi-lenguaje), y envía a la API
+# vpl_evaluate.sh
 set -Eeuo pipefail
 
 API_URL="${API_URL:-http://150.214.214.19:8000}"
@@ -8,8 +8,13 @@ TIMEOUT=40
 # 0) Selección de archivo de código del alumno
 CODE_FILE="${CODE_FILE:-}"
 if [ -z "$CODE_FILE" ]; then
-  for pattern in "*.py" "*.java" "*.cpp" "*.c" "*.js" "*.ts"; do
-    f=$(find . -maxdepth 1 -type f -name "$pattern" | head -n1 || true)
+  for pattern in "*.py" "*.java" "*.c" "*.cpp" "*.js" "*.ts"; do
+    f=$(find . -maxdepth 1 -type f -name "$pattern" \
+          ! -name "vpl_evaluate.c" \
+          ! -name "vpl_evaluate.cpp" \
+          ! -name "vpl_execution.c" \
+          ! -name "vpl_execution.cpp" \
+          | head -n1 || true)
     [ -n "${f:-}" ] && CODE_FILE="$f" && break
   done
 fi
@@ -52,6 +57,15 @@ case "$CODE_FILE" in
       exit 0
     }
     RUN_CMD="./main"
+    ;;
+
+  *.js)
+    # JavaScript con Node
+    RUN_CMD="node \"$CODE_FILE\""
+    ;;
+
+  *.ts)
+    RUN_CMD="node \"$CODE_FILE\""
     ;;
 
   *)
@@ -110,13 +124,21 @@ if [ -f "vpl_evaluate.cases" ] && [ -f "vpl_evaluate.cpp" ]; then
       "$@" 2>&1 | tee biotes_output.txt >/dev/null || true
       [ -s biotes_output.txt ] && ! grep -qi "No test case found" biotes_output.txt
     }
-    if ! try_run ./.vpl_tester; then
+        if ! try_run ./.vpl_tester; then
       if ! try_run ./.vpl_tester "evaluate.cases"; then
-        if ! try_run bash -lc "cat evaluate.cases | ./.vpl_tester"; then
-          CASES_DATA="$(cat evaluate.cases)"
-          if ! try_run env VPL_SUBFILE0="evaluate.cases" ./.vpl_tester; then
-            if ! try_run env VPL_SUBFILE0_CONTENT="$CASES_DATA" ./.vpl_tester; then
-              try_run env VPL_TESTCASES="$CASES_DATA" ./.vpl_tester || true
+        if ! try_run bash -lc "cat evaluate.cases 2>/dev/null | ./.vpl_tester"; then
+          # Si no existe evaluate.cases, no queremos que el script reviente
+          CASES_DATA=""
+          if [ -f evaluate.cases ]; then
+            # Silenciar el error y no romper por set -e
+            CASES_DATA="$(cat evaluate.cases 2>/dev/null || true)"
+          fi
+
+          if [ -n "$CASES_DATA" ]; then
+            if ! try_run env VPL_SUBFILE0="evaluate.cases" ./.vpl_tester; then
+              if ! try_run env VPL_SUBFILE0_CONTENT="$CASES_DATA" ./.vpl_tester; then
+                try_run env VPL_TESTCASES="$CASES_DATA" ./.vpl_tester || true
+              fi
             fi
           fi
         fi
